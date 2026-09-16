@@ -36,7 +36,7 @@ class OtpService
             ]
         );
 
-        OtpChannelFactory::make($type)->send($identifier, $code);
+        OtpChannelFactory::make($type)->sendOtp($identifier, $code);
     }
 
     public function verifyCode(string $identifier, string $code)
