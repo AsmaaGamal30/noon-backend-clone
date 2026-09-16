@@ -1,9 +1,10 @@
 <?php
 
-namespace app\Services\Otp\Channels;
+namespace App\Services\Otp\Channels;
 
 use App\Contracts\OtpChannel;
 use Illuminate\Support\Facades\Http;
+use RuntimeException;
 
 class SmsOtpChannel implements OtpChannel
 {
@@ -20,9 +21,7 @@ class SmsOtpChannel implements OtpChannel
 
         $response = Http::post($url);
         if ($response->failed()) {
-            throw new \Exception('Failed to send OTP via SMS.');
+            throw new RuntimeException('Failed to send OTP via SMS.');
         }
-        return;
-
     }
 }

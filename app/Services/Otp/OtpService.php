@@ -1,8 +1,8 @@
 <?php
 
-namespace app\Services\Otp;
+namespace App\Services\Otp;
 
-use app\Models\OtpVerification;
+use App\Models\OtpVerification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
@@ -10,10 +10,12 @@ use Illuminate\Validation\ValidationException;
 class OtpService
 {
     private const EXPIRES_IN_MINUTES = 5;
+
     private const MAX_ATTEMPTS = 5;
 
-    public function requestCode(string $identifier)
+    public function requestCode(string $identifier): void
     {
+        $identifier = OtpChannelFactory::normalizeIdentifier($identifier);
         $type = OtpChannelFactory::detectType($identifier);
         $key = "otp-request:{$identifier}";
 
@@ -39,15 +41,16 @@ class OtpService
         OtpChannelFactory::make($type)->sendOtp($identifier, $code);
     }
 
-    public function verifyCode(string $identifier, string $code)
+    public function verifyCode(string $identifier, string $code): void
     {
+        $identifier = OtpChannelFactory::normalizeIdentifier($identifier);
         $type = OtpChannelFactory::detectType($identifier);
 
         $otp = OtpVerification::where('identifier', $identifier)
             ->where('type', $type)
             ->first();
 
-        if (!$otp || $otp->expires_at->isPast()) {
+        if (! $otp || $otp->expires_at->isPast()) {
             throw ValidationException::withMessages(['code' => 'Code expired or not found.']);
         }
 
@@ -55,7 +58,7 @@ class OtpService
             throw ValidationException::withMessages(['code' => 'Too many attempts, request a new code.']);
         }
 
-        if (!Hash::check($code, $otp->code)) {
+        if (! Hash::check($code, $otp->code)) {
             $otp->increment('attempts');
             throw ValidationException::withMessages(['code' => 'Invalid code.']);
         }

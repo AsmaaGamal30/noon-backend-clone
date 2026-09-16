@@ -2,38 +2,32 @@
 
 namespace App\Http\Controllers\Auth;
 
-use app\Http\Controllers\Controller;
-use app\Services\Auth\AuthService;
-use app\Services\Otp\OtpService;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RequestCodeRequest;
+use App\Http\Requests\Auth\VerifyCodeRequest;
+use App\Services\Auth\AuthService;
+use App\Services\Otp\OtpService;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
     public function __construct(
         private OtpService $otpService,
         private AuthService $authService,
-    ) {
-    }
+    ) {}
 
-    public function requestCode(Request $request)
+    public function requestCode(RequestCodeRequest $request): JsonResponse
     {
-        $request->validate(['identifier' => 'required|string']);
-
-        $this->otpService->requestCode($request->identifier);
+        $this->otpService->requestCode($request->validated('identifier'));
 
         return response()->json(['message' => 'Code sent.']);
     }
 
-    public function verifyCode(Request $request)
+    public function verifyCode(VerifyCodeRequest $request): JsonResponse
     {
-        $request->validate([
-            'identifier' => 'required|string',
-            'code' => 'required|digits:6',
-        ]);
+        $this->otpService->verifyCode($request->validated('identifier'), $request->validated('code'));
 
-        $this->otpService->verifyCode($request->identifier, $request->code);
-
-        $user = $this->authService->findOrCreateUser($request->identifier);
+        $user = $this->authService->findOrCreateUser($request->validated('identifier'));
 
         return response()->json([
             'user' => $user,

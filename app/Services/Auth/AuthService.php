@@ -2,24 +2,23 @@
 
 namespace App\Services\Auth;
 
-use app\Models\User;
-use app\Services\Otp\OtpChannelFactory;
+use App\Models\User;
+use App\Services\Otp\OtpChannelFactory;
 use Illuminate\Support\Str;
 
 class AuthService
 {
     public function findOrCreateUser(string $identifier): User
     {
-        $type = OtpChannelFactory::detectType($identifier);
-        $column = $type === 'email' ? 'email' : 'phone';
+        $identifier = OtpChannelFactory::normalizeIdentifier($identifier);
+        $column = OtpChannelFactory::detectType($identifier)->value;
 
-        $user = User::firstOrCreate(
+        return User::firstOrCreate(
             [$column => $identifier],
             [
                 'first_name' => 'customer',
                 'password' => bcrypt(Str::random(32)),
             ]
         );
-        return $user;
     }
 }
