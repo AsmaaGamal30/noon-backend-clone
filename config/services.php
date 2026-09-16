@@ -35,4 +35,13 @@ return [
         ],
     ],
 
+    'sms_misr' => [
+        'base_url' => env('SMS_MISR_BASE_URL', 'https://smsmisr.com/api/OTP/?'),
+        'environment' => env('APP_ENV') === 'local' ? 2 : 1,
+        'username' => env('SMS_MISR_USERNAME'),
+        'password' => env('SMS_MISR_PASSWORD'),
+        'sender_id' => env('SMS_MISR_SENDER_ID'),
+        'template_token' => env('SMS_MISR_TEMPLATE_TOKEN'),
+    ],
+
 ];

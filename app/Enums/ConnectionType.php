@@ -1,10 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Enums;
 
 enum ConnectionType: string
 {
-    //phone or email
     case PHONE = 'phone';
     case EMAIL = 'email';
 }

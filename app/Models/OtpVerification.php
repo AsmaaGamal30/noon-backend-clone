@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\ConnectionType;
+use App\Enums\ConnectionType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Attributes\Guarded;
 
