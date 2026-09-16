@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Services\Auth\AuthService;
-use App\Services\Otp\OtpService;
+use app\Http\Controllers\Controller;
+use app\Services\Auth\AuthService;
+use app\Services\Otp\OtpService;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller

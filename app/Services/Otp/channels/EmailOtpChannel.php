@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services\Otp\channels;
+namespace app\Services\Otp\channels;
 
-use App\Contracts\OtpChannel;
+use app\Contracts\OtpChannel;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\Otp\OtpCodeMail;
+use app\Mail\Otp\OtpCodeMail;
 
 class EmailOtpChannel implements OtpChannel
 {

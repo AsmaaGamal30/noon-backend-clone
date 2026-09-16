@@ -2,8 +2,8 @@
 
 namespace App\Services\Auth;
 
-use App\Models\User;
-use App\Services\Otp\OtpChannelFactory;
+use app\Models\User;
+use app\Services\Otp\OtpChannelFactory;
 use Illuminate\Support\Str;
 
 class AuthService

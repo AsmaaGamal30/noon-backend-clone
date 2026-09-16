@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services\Otp;
+namespace app\Services\Otp;
 
-use App\Contracts\OtpChannel;
-use App\Services\Otp\Channels\EmailOtpChannel;
-use App\Services\Otp\Channels\SmsOtpChannel;
+use app\Contracts\OtpChannel;
+use app\Services\Otp\Channels\EmailOtpChannel;
+use app\Services\Otp\Channels\SmsOtpChannel;
 use InvalidArgumentException;
 
 class OtpChannelFactory
@@ -20,6 +20,8 @@ class OtpChannelFactory
 
     public static function detectType(string $identifier): string
     {
+        $identifier = trim($identifier);
+        $identifier = strtolower($identifier);
         return filter_var($identifier, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
     }
 }

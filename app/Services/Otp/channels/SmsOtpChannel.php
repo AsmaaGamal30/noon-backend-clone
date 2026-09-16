@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Otp\Channels;
+namespace app\Services\Otp\Channels;
 
 use App\Contracts\OtpChannel;
 use Illuminate\Support\Facades\Http;

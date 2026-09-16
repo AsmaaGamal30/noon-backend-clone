@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Otp;
+namespace app\Services\Otp;
 
-use App\Models\OtpVerification;
+use app\Models\OtpVerification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
